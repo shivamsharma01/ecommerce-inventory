@@ -53,5 +53,10 @@ public class InventoryService {
             }
         }
     }
+
+    @Transactional
+    public void deleteByProductId(String productId) {
+        inventoryRepository.deleteById(productId.trim());
+    }
 }
 
