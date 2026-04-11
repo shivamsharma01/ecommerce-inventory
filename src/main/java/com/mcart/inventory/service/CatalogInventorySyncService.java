@@ -24,6 +24,7 @@ public class CatalogInventorySyncService {
 	private String productBaseUrl;
 
 	public int syncAllFromCatalog() {
+		log.info("Starting catalog → inventory sync");
 		int synced = 0;
 		int page = 0;
 		final int size = 100;
