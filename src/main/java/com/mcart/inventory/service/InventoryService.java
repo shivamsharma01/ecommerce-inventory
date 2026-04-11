@@ -2,6 +2,7 @@ package com.mcart.inventory.service;
 
 import com.mcart.inventory.dto.InventoryAdjustRequest;
 import com.mcart.inventory.dto.InventoryInitRequest;
+import com.mcart.inventory.dto.InventoryResponse;
 import com.mcart.inventory.entity.InventoryItem;
 import com.mcart.inventory.exception.InventoryNotFoundException;
 import com.mcart.inventory.exception.NotEnoughInventoryException;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,14 @@ public class InventoryService {
     public InventoryItem getByProductId(String productId) {
         return inventoryRepository.findById(productId)
                 .orElseThrow(() -> new InventoryNotFoundException(productId));
+    }
+
+    /** All rows for admin dashboards (may be large in dev). */
+    public List<InventoryResponse> listAll() {
+        return inventoryRepository.findAll().stream()
+                .map(i -> new InventoryResponse(i.getProductId(), i.getAvailableQty()))
+                .sorted(Comparator.comparing(InventoryResponse::productId))
+                .toList();
     }
 
     @Transactional

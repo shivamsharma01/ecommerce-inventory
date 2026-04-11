@@ -42,10 +42,18 @@ public class ProductPubSubEventHandler {
 			if (DELETED.equals(eventType)) {
 				String productId = text(payloadNode, "productId");
 				if (productId == null || productId.isBlank()) {
-					log.warn("PRODUCT_DELETED without productId");
+					JsonNode agg = root.get("aggregateId");
+					if (agg != null && agg.isTextual()) {
+						productId = agg.asText();
+					}
+				}
+				if (productId == null || productId.isBlank()) {
+					log.warn("PRODUCT_DELETED without productId or aggregateId");
 					return true;
 				}
-				inventoryService.deleteByProductId(productId.trim());
+				String id = productId.trim();
+				inventoryService.deleteByProductId(id);
+				log.info("Inventory row removed for deleted product {}", id);
 				return true;
 			}
 
