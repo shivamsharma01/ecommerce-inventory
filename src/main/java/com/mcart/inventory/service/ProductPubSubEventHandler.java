@@ -7,9 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-/**
- * Applies product-events Pub/Sub messages to Postgres inventory (same topic as product-indexer).
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j

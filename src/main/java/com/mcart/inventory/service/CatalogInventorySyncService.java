@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-/**
- * Pulls catalog pages from the product service and upserts inventory rows from {@code stockQuantity}.
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
